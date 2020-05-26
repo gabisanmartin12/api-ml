@@ -1,19 +1,26 @@
+const { getCurrencySymbolByCode } = require("../utils");
+
 class Item {
   constructor({
     id,
     title,
     currency_id,
     price,
-    thumbnail,
     condition,
+    thumbnail,
     ...extra
   }) {
     this.id = id;
     this.title = title;
+    let [amount, decimals] = price
+      .toFixed(2)
+      .toString()
+      .split(".")
+      .map((part) => parseInt(part));
     this.price = {
-      currency: currency_id,
-      amount: price,
-      decimals: "...",
+      currency: getCurrencySymbolByCode(currency_id),
+      amount: amount,
+      decimals: decimals,
     };
     this.picture = thumbnail;
     this.condition = condition;
@@ -21,12 +28,17 @@ class Item {
   }
 
   setDescription(desription) {
-    this.desription = desription;
+    this.description = desription;
     return this;
   }
 
   setSoldQuantity(soldQuantity) {
     this.sold_quantity = soldQuantity;
+    return this;
+  }
+
+  setPicture(url) {
+    this.picture = url;
     return this;
   }
 }
