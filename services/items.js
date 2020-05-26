@@ -15,7 +15,11 @@ module.exports.getAll = async (filters) => {
 
   if (res.data.status >= 400) throw res.data;
 
-  return { paging: res.data.paging, items: res.data.results };
+  return {
+    paging: res.data.paging,
+    items: res.data.results,
+    categories: res.data.filters.find((filter) => filter.id === "category"),
+  };
 };
 
 module.exports.getById = async (id) => {
